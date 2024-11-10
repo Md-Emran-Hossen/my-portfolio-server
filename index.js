@@ -29,6 +29,7 @@ async function run() {
 
     const projectCollection = client.db("myPortfolio").collection("projects");
     const technologyCollection = client.db("myPortfolio").collection("technologies");
+    const serviceCollection = client.db("myPortfolio").collection("services");
     
       // project route
       app.post("/projects", async (req, res) => {
@@ -54,6 +55,20 @@ async function run() {
 
       app.get("/technologies", async (req, res) => {
         const query = technologyCollection.find();
+        const result = await query.toArray();
+        res.send(result);
+      });
+
+      // Services route
+      app.post("/services", async (req, res) => {
+        const service = req.body;
+        const result = await serviceCollection.insertOne(service);
+        console.log("Services Info: ", result);
+        res.send(result);
+      });
+
+      app.get("/services", async (req, res) => {
+        const query = serviceCollection.find();
         const result = await query.toArray();
         res.send(result);
       });
